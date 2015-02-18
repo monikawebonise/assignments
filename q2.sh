@@ -1,0 +1,1 @@
+rename '/\.txt$/_.txt/' *
