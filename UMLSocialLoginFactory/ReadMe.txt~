@@ -1,0 +1,5 @@
+1:FACADE PATRERN:User(The social login sites): Shall be able to use, the login factory interface. So here we have the FACADE Pattern, its looks at only the login interface.
+2:FACTOR PATTERN:The classes will then be created by this factory(user),which will be singleton classes.These Singleton classes will have a specific implementation of the login interface.
+3:OBSERVER PATTERN:The notify class will posses "Notify" Method, which its object Observer will be using.
+                   This object is responsible for notifying the end user through its registered email id. 
+4:The end user can use the facilities in the singleton classes.
