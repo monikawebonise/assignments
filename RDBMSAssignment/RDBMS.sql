@@ -1,3 +1,133 @@
+
+#Create_ Commands
+CREATE TABLE `users` (
+  `id` varchar(20) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
+  `password` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ;
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL,
+  `question` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `candidate_submissions` (
+  `id` int(11) NOT NULL,
+  `assignmentid` varchar(20) DEFAULT NULL,
+  `candidate_userid` varchar(20) DEFAULT NULL,
+  `questionid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `assignmentid_Fkk` (`assignmentid`),
+  KEY `candidateuserid_FKk` (`candidate_userid`),
+  KEY `questionid_FKk` (`questionid`),
+  CONSTRAINT `assignmentid_Fkk` FOREIGN KEY (`assignmentid`) REFERENCES `assignments` (`id`),
+  CONSTRAINT `candidateuserid_FKk` FOREIGN KEY (`candidate_userid`) REFERENCES `users` (`id`),
+  CONSTRAINT `questionid_FKk` FOREIGN KEY (`questionid`) REFERENCES `questions` (`id`)
+);
+
+CREATE TABLE `candidate_sub_ans` (
+  `id` int(11) NOT NULL,
+  `candidate_submissions_id` int(11) DEFAULT NULL,
+  `optionid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `candi_subid_FK` (`candidate_submissions_id`),
+  KEY `optionid_fkk` (`optionid`),
+  CONSTRAINT `candi_subid_FK` FOREIGN KEY (`candidate_submissions_id`) REFERENCES `candidate_submissions` (`id`),
+  CONSTRAINT `optionid_fkk` FOREIGN KEY (`optionid`) REFERENCES `options` (`id`)
+);
+
+CREATE TABLE `options` (
+  `id` int(11) NOT NULL,
+  `questions_id` int(11) DEFAULT NULL,
+  `options_name` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `questionid_FK` (`questions_id`),
+  CONSTRAINT `questionid_FK` FOREIGN KEY (`questions_id`) REFERENCES `questions` (`id`)
+);
+
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL,
+  `questions_id` int(11) DEFAULT NULL,
+  `correctoption` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `questions_id_Fk` (`questions_id`),
+  CONSTRAINT `questions_id_Fk` FOREIGN KEY (`questions_id`) REFERENCES `questions` (`id`)
+);
+
+CREATE TABLE `assignment_questions` (
+  `id` int(11) NOT NULL,
+  `assignmentid` varchar(20) DEFAULT NULL,
+  `questions_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `assignmentid_FK` (`assignmentid`),
+  KEY `questionsid_FK` (`questions_id`),
+  CONSTRAINT `assignmentid_FK` FOREIGN KEY (`assignmentid`) REFERENCES `assignments` (`id`),
+  CONSTRAINT `questionsid_FK` FOREIGN KEY (`questions_id`) REFERENCES `questions` (`id`)
+);
+ CREATE TABLE `asgn_allocation` (
+  `id` varchar(20) NOT NULL,
+  `assgn_id` varchar(20) DEFAULT NULL,
+  `candidate_id` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `assgn_id_fk` (`assgn_id`),
+  KEY `candidate_id_fk` (`candidate_id`),
+  CONSTRAINT `assgn_id_fk` FOREIGN KEY (`assgn_id`) REFERENCES `assignments` (`id`),
+  CONSTRAINT `candidate_id_fk` FOREIGN KEY (`candidate_id`) REFERENCES `users` (`id`)
+);
+
+CREATE TABLE `assignment_questions` (
+  `id` int(11) NOT NULL,
+  `assignmentid` varchar(20) DEFAULT NULL,
+  `questions_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `assignmentid_FK` (`assignmentid`),
+  KEY `questionsid_FK` (`questions_id`),
+  CONSTRAINT `assignmentid_FK` FOREIGN KEY (`assignmentid`) REFERENCES `assignments` (`id`),
+  CONSTRAINT `questionsid_FK` FOREIGN KEY (`questions_id`) REFERENCES `questions` (`id`)
+);
+
+ CREATE TABLE `assignment_scores` (
+  `id` int(11) NOT NULL,
+  `assignment_id` varchar(20) DEFAULT NULL,
+  `candidates_userid` varchar(20) DEFAULT NULL,
+  `scores` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `assgn_idFK` (`assignment_id`),
+  KEY `userid_frnkey` (`candidates_userid`),
+  CONSTRAINT `assgn_idFK` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`),
+  CONSTRAINT `userid_frnkey` FOREIGN KEY (`candidates_userid`) REFERENCES `users` (`id`)
+);
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `candidate_score` AS select `u1`.`id` AS `id`,`u1`.`name` AS `name`,`asgnscore`.`scores` AS `scores` from (`users` `u1` join `assignment_scores` `asgnscore`) where (`u1`.`id` = `asgnscore`.`candidates_userid`);
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `rolename` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+
+CREATE TABLE `user_roles` (
+  `id` int(11) NOT NULL,
+  `userid` varchar(20) DEFAULT NULL,
+  `roles_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userid_fk` (`userid`),
+  KEY `rolesid_fk` (`roles_id`),
+  CONSTRAINT `rolesid_fk` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `userid_fk` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
+);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pivot_table` AS select `u2`.`id` AS `id`,`u2`.`name` AS `name`,`q1`.`question` AS `question`,`op`.`options_name` AS `options_name` from ((((`users` `u2` join `questions` `q1`) join `candidate_submissions` `cand_sub`) join `candidate_sub_ans` `can_sub_ans`) join `options` `op`) where ((`q1`.`id` = `cand_sub`.`questionid`) and (`cand_sub`.`candidate_userid` = `u2`.`id`) and (`can_sub_ans`.`optionid` = `op`.`id`) and (`can_sub_ans`.`candidate_submissions_id` = `cand_sub`.`id`));
+
+
+
+
+
+
+
+
+
 # Insert Commands
 insert into user_roles values(1,1,1);
 insert into user_roles values(2,1,2);
