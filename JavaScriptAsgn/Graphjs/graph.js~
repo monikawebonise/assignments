@@ -1,0 +1,10 @@
+var equation=null;
+var a=null;
+var b=null;
+var c=null;
+
+function parse("equation") {
+               
+}
+
+document.getElementById("eq").innerHTML = "equation";

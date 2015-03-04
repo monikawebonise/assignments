@@ -1,0 +1,39 @@
+<html>
+<head>
+<script src="Graphjs/graph.js"></script>
+<script src="Graphjs/jquery.js"></script>
+<script src="Graphjs/lib.js"></script>
+
+</head>
+
+<body>
+<h1>Graph Generator</h1>
+Enter the equation to be parsed 
+<br><br>
+<input type= "text"; id="equation"; onblur="inputEquation()"; />
+
+<body style="background-color:pink">
+
+<button  onclick="parse()";>Parse</button>
+a: <input type="text"; id="a_val"; disabled="true"; size="2px"; />
+b: <input type="text"; id="b_val"; disabled="true"; size="2px"; />
+c: <input type="text"; id="c_val"; disabled="true"; size="2px"; />
+<button  onclick="draw()"; >Draw!!</button>
+<br>
+
+<br>
+x_min: <input type="text"; id="x_min";/> 
+<br>
+x_max: <input type="text"; id="x_max";/>
+<br>
+xstep: <input type="text"; id="xstep" ;/>
+<br><br>
+
+
+<canvas id="lineCanvas" width="500" height="300"
+style="border:1px solid #000000;">
+
+</canvas> 
+
+</body>
+</html> 
