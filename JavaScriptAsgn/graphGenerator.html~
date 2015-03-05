@@ -1,7 +1,7 @@
 <html>
 <head>
-<script src="Graphjs/graph.js"></script>
 <script src="Graphjs/jquery.js"></script>
+<script src="Graphjs/graph.js"></script>
 <script src="Graphjs/lib.js"></script>
 
 </head>
@@ -10,7 +10,7 @@
 <h1>Graph Generator</h1>
 Enter the equation to be parsed 
 <br><br>
-<input type= "text"; id="equation"; onblur="inputEquation()"; />
+<input type= "text"; id="equation"; onblur="parse()";  />
 
 <body style="background-color:pink">
 
